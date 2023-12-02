@@ -1,0 +1,42 @@
+﻿@page "/"
+
+@inject IJSRuntime Js;
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+<p>Change the below textbox and then try the buttons</p>
+
+<p>
+    <MyComponent TagName="input" @bind-Value="@(value)" />
+</p>
+
+<p>
+    <MyComponent TagName="md-filled-text-field" @bind-Value="@(value)" />
+</p>
+
+<p>
+    <button @onclick="Clear">Clear</button>
+    <button @onclick="SetTo12345">Set to 12345</button>
+</p>
+
+
+
+<p>Current value: @(value)</p>
+
+@code {
+
+    string value = "123";
+
+    void Clear()
+    {
+        value = "";
+    }
+
+    void SetTo12345()
+    {
+        value = "12345";
+    }
+
+}

@@ -1,0 +1,33 @@
+﻿@(render(TagName))
+
+@code {
+    [Parameter, EditorRequired]
+    public string TagName { get; set; } = null!;
+
+    [Parameter]
+    public string Value { get; set; } = "";
+
+    [Parameter]
+    public EventCallback<string> ValueChanged { get; set; }
+
+    async Task OnChangeAsync(ChangeEventArgs e)
+    {
+        await ValueChanged.InvokeAsync(e.Value?.ToString() ?? "");
+    }
+
+    RenderFragment<string> render => tagName => builder =>
+    {
+        builder.OpenElement(5, tagName);
+        builder.AddAttribute(6, "value", BindConverter.FormatValue(Value));
+        builder.AddAttribute(7, "onchange", EventCallback.Factory.CreateBinder(
+            this,
+            async __value =>
+            {
+                await ValueChanged.InvokeAsync(__value?.ToString() ?? "");
+            },
+            Value));
+        builder.SetUpdatesAttributeName("value");
+        builder.CloseElement();
+    };
+
+}
